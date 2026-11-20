@@ -6,18 +6,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var store = AppStore()
+    @AppStorage("auth.signedIn") private var isSignedIn = false
+
     var body: some View {
-        VStack {
-            Image(systemName: "checkmark.seal.fill")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-                .font(.title)
-                .padding()
-            Text("Hello, world!")
-                .font(.title)
-                .padding()
+        Group {
+            if isSignedIn {
+                RootView(isSignedIn: $isSignedIn)
+            } else {
+                AuthFlowView(isSignedIn: $isSignedIn)
+            }
         }
-        .padding()
+        .environmentObject(store)
     }
 }
 
